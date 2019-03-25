@@ -1,0 +1,125 @@
+---
+#
+# edX Configuration
+#
+# github:     https://github.com/edx/configuration
+# wiki:       https://openedx.atlassian.net/wiki/display/OpenOPS
+# code style: https://openedx.atlassian.net/wiki/display/OpenOPS/Ansible+Code+Conventions
+# license:    https://github.com/edx/configuration/blob/master/LICENSE.TXT
+#
+#
+#
+# Tasks for role hermes
+#
+# Overview:
+#
+# Dependencies:
+#
+#
+# Example play:
+#
+#
+
+- name: install python3
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - python3-pip
+    - python3-dev
+  tags:
+    - install
+    - install:system-requirements
+
+- name: build virtualenv with python3
+  command: "virtualenv --python=python3 {{ hermes_venv_dir }}"
+  args:
+    creates: "{{ hermes_venv_dir }}/bin/pip"
+  become_user: "{{ hermes_user }}"
+  tags:
+    - install
+    - install:system-requirements
+
+- name: install production requirements
+  command: make production-requirements
+  args:
+    chdir: "{{ hermes_code_dir }}"
+  become_user: "{{ hermes_user }}"
+  environment: "{{ hermes_environment }}"
+  tags:
+    - install
+    - install:app-requirements
+
+- name: write out the supervisor wrapper
+  template:
+    src: "edx/hermes/hermes.sh.j2"
+    dest: "{{ hermes_home }}/{{ hermes_name }}.sh"
+    mode: 0650
+    owner: "{{ supervisor_user }}"
+    group: "{{ common_web_user }}"
+  tags:
+    - install
+    - install:configuration
+
+- name: write supervisord config
+  template:
+    src: "edx/app/supervisor/conf.d.available/hermes.conf.j2"
+    dest: "{{ supervisor_available_dir }}/{{ hermes_name }}.conf"
+    owner: "{{ supervisor_user }}"
+    group: "{{ common_web_user }}"
+    mode: 0644
+  tags:
+    - install
+    - install:configuration
+
+- name: setup the app env file
+  template:
+    src: "edx/hermes/hermes_env.j2"
+    dest: "{{ hermes_home }}/{{ hermes_name }}_env"
+    owner: "{{ hermes_user }}"
+    group: "{{ hermes_user }}"
+    mode: 0644
+  tags:
+    - install
+    - install:configuration
+
+- name: enable supervisor script
+  file:
+    src: "{{ supervisor_available_dir }}/{{ hermes_name }}.conf"
+    dest: "{{ supervisor_cfg_dir }}/{{ hermes_name }}.conf"
+    state: link
+    force: yes
+  when: not disable_edx_services
+  tags:
+    - install
+    - install:configuration
+
+- name: update supervisor configuration
+  command: "{{ supervisor_ctl }} -c {{ supervisor_cfg }} update"
+  when: not disable_edx_services
+  tags:
+    - manage
+    - manage:start
+
+- name: create symlinks from the venv bin dir
+  file:
+    src: "{{ hermes_venv_dir }}/bin/{{ item }}"
+    dest: "{{ COMMON_BIN_DIR }}/{{ item.split('.')[0] }}.{{ hermes_name }}"
+    state: link
+  with_items:
+    - python
+    - pip
+  tags:
+    - install
+    - install:app-requirements
+
+- name: restart the application
+  supervisorctl:
+    state: restarted
+    supervisorctl_path: "{{ supervisor_ctl }}"
+    config: "{{ supervisor_cfg }}"
+    name: "{{ hermes_name }}"
+  when: not disable_edx_services
+  become_user: "{{ supervisor_service_user }}"
+  tags:
+    - manage
+    - manage:start
