@@ -20,17 +20,17 @@
 #
 #
 
-# - name: restart the hermes service
-#   supervisorctl:
-#     state: restarted
-#     supervisorctl_path: "{{ supervisor_ctl }}"
-#     config: "{{ supervisor_cfg }}"
-#     name: "{{ hermes_service_name }}"
-#   when: not disable_edx_services
-#   become_user: "{{ supervisor_service_user }}"
-#   tags:
-#     - manage
-#     - manage:start
+- name: restart the hermes service
+  supervisorctl:
+    state: restarted
+    supervisorctl_path: "{{ supervisor_ctl }}"
+    config: "{{ supervisor_cfg }}"
+    name: "{{ hermes_service_name }}"
+  when: not disable_edx_services
+  become_user: "{{ supervisor_service_user }}"
+  tags:
+    - manage
+    - manage:start
 
 # The deadsnakes PPA is required to install python3.6 on Xenial.
 # Bionic comes with python3.6 installed.
@@ -71,7 +71,7 @@
     refspec: "+refs/heads/*:refs/remotes/origin/*"
   become_user: "{{ hermes_user }}"
   register: hermes_checkout
-  # notify: restart the hermes service
+  notify: restart the hermes service
   tags:
     - install
     - install:code
