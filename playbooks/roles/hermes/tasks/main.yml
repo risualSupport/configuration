@@ -20,18 +20,41 @@
 #
 #
 
-- name: install python3
+# - name: restart the hermes service
+#   supervisorctl:
+#     state: restarted
+#     supervisorctl_path: "{{ supervisor_ctl }}"
+#     config: "{{ supervisor_cfg }}"
+#     name: "{{ hermes_service_name }}"
+#   when: not disable_edx_services
+#   become_user: "{{ supervisor_service_user }}"
+#   tags:
+#     - manage
+#     - manage:start
+
+# The deadsnakes PPA is required to install python3.6 on Xenial.
+# Bionic comes with python3.6 installed.
+- name: add deadsnakes repository
+  apt_repository:
+    repo: "ppa:fkrull/deadsnakes"
+  when: ansible_distribution_release == 'xenial'
+  tags:
+    - install
+    - install:system-requirements
+
+- name: install python3.6
   apt:
     name: "{{ item }}"
   with_items:
+    - python3.6
     - python3-pip
-    - python3-dev
+  when: ansible_distribution_release == 'xenial'
   tags:
     - install
     - install:system-requirements
 
 - name: build virtualenv with python3
-  command: "virtualenv --python=python3 {{ hermes_venv_dir }}"
+  command: "virtualenv --python=/usr/bin/python3.6 {{ hermes_venv_dir }}"
   args:
     creates: "{{ hermes_venv_dir }}/bin/pip"
   become_user: "{{ hermes_user }}"
@@ -39,8 +62,23 @@
     - install
     - install:system-requirements
 
-- name: install production requirements
-  command: make production-requirements
+- name: git checkout hermes repo into {{ hermes_code_dir }}
+  git:
+    dest: "{{ hermes_code_dir }}"
+    repo: "{{ hermes_source_repo }}"
+    version: "{{ hermes_version }}"
+    accept_hostkey: yes
+    refspec: "+refs/heads/*:refs/remotes/origin/*"
+  become_user: "{{ hermes_user }}"
+  register: hermes_checkout
+  # notify: restart the hermes service
+  tags:
+    - install
+    - install:code
+
+
+- name: install requirements
+  command: make requirements
   args:
     chdir: "{{ hermes_code_dir }}"
   become_user: "{{ hermes_user }}"
@@ -51,10 +89,10 @@
 
 - name: write out the supervisor wrapper
   template:
-    src: "edx/hermes/hermes.sh.j2"
-    dest: "{{ hermes_home }}/{{ hermes_name }}.sh"
+    src: "templates/hermes.sh.j2"
+    dest: "{{ hermes_app_dir }}/{{ hermes_service_name }}.sh"
     mode: 0650
-    owner: "{{ supervisor_user }}"
+    owner: "{{ common_web_user }}"
     group: "{{ common_web_user }}"
   tags:
     - install
@@ -63,8 +101,8 @@
 - name: write supervisord config
   template:
     src: "edx/app/supervisor/conf.d.available/hermes.conf.j2"
-    dest: "{{ supervisor_available_dir }}/{{ hermes_name }}.conf"
-    owner: "{{ supervisor_user }}"
+    dest: "{{ supervisor_available_dir }}/{{ hermes_service_name }}.conf"
+    owner: "{{ common_web_user }}"
     group: "{{ common_web_user }}"
     mode: 0644
   tags:
@@ -74,9 +112,9 @@
 - name: setup the app env file
   template:
     src: "edx/hermes/hermes_env.j2"
-    dest: "{{ hermes_home }}/{{ hermes_name }}_env"
-    owner: "{{ hermes_user }}"
-    group: "{{ hermes_user }}"
+    dest: "{{ hermes_app_dir }}/{{ hermes_service_name }}_env"
+    owner: "{{ common_web_user }}"
+    group: "{{ common_web_user }}"
     mode: 0644
   tags:
     - install
@@ -84,8 +122,8 @@
 
 - name: enable supervisor script
   file:
-    src: "{{ supervisor_available_dir }}/{{ hermes_name }}.conf"
-    dest: "{{ supervisor_cfg_dir }}/{{ hermes_name }}.conf"
+    src: "{{ supervisor_available_dir }}/{{ hermes_service_name }}.conf"
+    dest: "{{ supervisor_cfg_dir }}/{{ hermes_service_name }}.conf"
     state: link
     force: yes
   when: not disable_edx_services
@@ -103,7 +141,7 @@
 - name: create symlinks from the venv bin dir
   file:
     src: "{{ hermes_venv_dir }}/bin/{{ item }}"
-    dest: "{{ COMMON_BIN_DIR }}/{{ item.split('.')[0] }}.{{ hermes_name }}"
+    dest: "{{ COMMON_BIN_DIR }}/{{ item.split('.')[0] }}.{{ hermes_service_name }}"
     state: link
   with_items:
     - python
@@ -111,15 +149,3 @@
   tags:
     - install
     - install:app-requirements
-
-- name: restart the application
-  supervisorctl:
-    state: restarted
-    supervisorctl_path: "{{ supervisor_ctl }}"
-    config: "{{ supervisor_cfg }}"
-    name: "{{ hermes_name }}"
-  when: not disable_edx_services
-  become_user: "{{ supervisor_service_user }}"
-  tags:
-    - manage
-    - manage:start
