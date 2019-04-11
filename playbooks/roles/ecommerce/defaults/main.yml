@@ -229,6 +229,10 @@ ECOMMERCE_SESSION_COOKIE_SECURE: true
 # See edx_django_service_automated_users for an example of what this should be
 ECOMMERCE_AUTOMATED_USERS: {}
 
+ECOMMERCE_ENABLE_HERMES: "{{ COMMON_ENABLE_HERMES }}"
+ECOMMERCE_HERMES_SERVICE_CONFIG: []
+
+
 #
 # vars are namespace with the module name.
 #

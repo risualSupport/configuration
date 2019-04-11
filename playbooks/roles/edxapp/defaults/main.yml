@@ -947,6 +947,9 @@ EDXAPP_LMS_WRITABLE_GRADEBOOK_URL: null
 # Needed to link to the new profile micro-frontend.
 EDXAPP_PROFILE_MICROFRONTEND_URL: null
 
+EDXAPP_ENABLE_HERMES: "{{ COMMON_ENABLE_HERMES }}"
+EDXAPP_HERMES_SERVICE_CONFIG: []
+
 #-------- Everything below this line is internal to the role ------------
 
 #Use YAML references (& and *) and hash merge <<: to factor out shared settings

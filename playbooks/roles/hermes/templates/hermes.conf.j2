@@ -1,6 +1,6 @@
 [program:{{ hermes_service_name }}]
 
-command={{ hermes_app_dir }}/{{ hermes_service_name }}.sh
+command={{ hermes_app_dir }}/{{ hermes_service_name }}.sh -i {{ hermes_interval }} -y {{ hermes_manifest_yaml_file_path }}
 
 user={{ common_web_user }}
 directory={{ hermes_code_dir }}

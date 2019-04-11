@@ -8,3 +8,6 @@ dependencies:
     theme_users:
       - "{{ edxapp_user }}"
     when: EDXAPP_ENABLE_COMPREHENSIVE_THEMING
+  - role: hermes
+    hermes_service_config: "{{ EDXAPP_HERMES_SERVICE_CONFIG }}"
+    when: EDXAPP_ENABLE_HERMES

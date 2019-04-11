@@ -2,6 +2,7 @@
 
 # {{ ansible_managed }}
 
+source {{ hermes_service_name }}/{{ hermes_service_name }}_env
 {% if COMMON_ENABLE_NEWRELIC_APP %}
 {% set executable = hermes_venv_bin + '/newrelic-admin run-program ' + hermes_venv_bin + '/python' %}
 {% else %}
@@ -18,5 +19,5 @@ fi
 export NEW_RELIC_LICENSE_KEY="{{ NEWRELIC_LICENSE_KEY }}"
 {% endif -%}
 
-source {{ hermes_service_name }}/{{ hermes_service_name }}_env
-{{ executable }} {{hermes_code_dir}}/hermes.py
+# We exec so that celery is the child of supervisor and can be managed properly
+exec {{ executable }} {{ hermes_code_dir }}/hermes.py $@

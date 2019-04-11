@@ -50,3 +50,6 @@ dependencies:
     edx_django_service_session_expire_at_browser_close: '{{ DISCOVERY_SESSION_EXPIRE_AT_BROWSER_CLOSE }}'
     edx_django_service_automated_users: '{{ DISCOVERY_AUTOMATED_USERS }}'
     edx_django_service_enable_newrelic_distributed_tracing: '{{ DISCOVERY_ENABLE_NEWRELIC_DISTRIBUTED_TRACING }}'
+  - role: hermes
+    hermes_service_config: "{{ DISCOVERY_HERMES_SERVICE_CONFIG }}"
+    when: DISCOVERY_ENABLE_HERMES

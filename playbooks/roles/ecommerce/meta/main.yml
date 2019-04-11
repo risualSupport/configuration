@@ -54,3 +54,6 @@ dependencies:
   - role: antivirus
     ANTIVIRUS_SCAN_DIRECTORY: "{{ ECOMMERCE_ANTIVIRUS_SCAN_DIRECTORY }}"
     when: ECOMMERCE_ENABLE_ANTIVIRUS
+  - role: hermes
+    hermes_service_config: "{{ ECOMMERCE_HERMES_SERVICE_CONFIG }}"
+    when: ECOMMERCE_ENABLE_HERMES

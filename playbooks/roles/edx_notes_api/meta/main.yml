@@ -31,4 +31,7 @@ dependencies:
     edx_service_packages:
       debian: "{{ edx_notes_api_debian_pkgs }}"
       redhat: "{{ edx_notes_api_redhat_pkgs }}"
+  - role: hermes
+    hermes_service_config: "{{ EDX_NOTES_API_HERMES_SERVICE_CONFIG }}"
+    when: EDX_NOTES_API_ENABLE_HERMES
 

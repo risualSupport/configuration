@@ -22,3 +22,6 @@ dependencies:
     edx_service_packages:
       debian: "{{ insights_debian_pkgs + insights_release_specific_debian_pkgs[ansible_distribution_release] }}"
       redhat: []
+  - role: hermes
+  hermes_service_config: "{{ INSIGHTS_HERMES_SERVICE_CONFIG }}"
+  when: INSIGHTS_ENABLE_HERMES

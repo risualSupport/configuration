@@ -22,4 +22,7 @@ dependencies:
     edx_service_packages:
       debian: "{{ ecommerce_worker_debian_pkgs }}"
       redhat: "{{ ecommerce_worker_redhat_pkgs }}"
+  - role: hermes
+    hermes_service_config: "{{ ECOMMERCE_WORKER_HERMES_SERVICE_CONFIG }}"
+    when: ECOMMERCE_WORKER_ENABLE_HERMES
 

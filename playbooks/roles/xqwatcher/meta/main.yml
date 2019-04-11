@@ -23,3 +23,6 @@ dependencies:
     edx_service_packages:
         debian: "{{ xqwatcher_debian_pkgs }}"
         redhat: "{{ xqwatcher_redhat_pkgs }}"
+  - role: hermes
+    hermes_service_config: "{{ XQWATCHER_HERMES_SERVICE_CONFIG }}"
+    when: XQWATCHER_ENABLE_HERMES

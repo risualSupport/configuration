@@ -21,11 +21,11 @@ hermes_service_name: hermes
 hermes_source_repo: https://github.com/edx/hermes.git
 hermes_version: master
 hermes_app_dir: "{{ COMMON_APP_DIR }}/{{ hermes_service_name }}"
-hermes_code_dir: "{{ hermes_app_dir }}/{{hermes_service_name}}"
+hermes_code_dir: "{{ hermes_app_dir }}/{{ hermes_service_name }}"
 hermes_venv_dir: "{{ hermes_app_dir }}/venvs/{{ hermes_service_name }}"
 hermes_venv_bin: "{{ hermes_venv_dir }}/bin"
-HERMES_SERVICE_CONFIG: []
-HERMES_NEWRELIC_APPNAME: "{{ COMMON_ENVIRONMENT }}-{{ COMMON_DEPLOYMENT }}-{{hermes_service_name}}"
+hermes_interval: 60
+hermes_manifest_yaml_file_path: "{{ COMMON_CFG_DIR }}/{{ hermes_service_name }}.yml"
 hermes_environment:
   PATH: "{{ hermes_venv_dir }}/bin:{{ ansible_env.PATH }}"
 #
@@ -35,3 +35,6 @@ hermes_environment:
 hermes_debian_pkgs: []
 
 hermes_redhat_pkgs: []
+
+hermes_service_config: []
+HERMES_NEWRELIC_APPNAME: "{{ COMMON_ENVIRONMENT }}-{{ COMMON_DEPLOYMENT }}-{{ hermes_service_name }}"

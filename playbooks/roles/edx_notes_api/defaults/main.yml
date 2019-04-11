@@ -59,6 +59,9 @@ EDX_NOTES_API_REPOS:
     DESTINATION: "{{ edx_notes_api_code_dir }}"
     SSH_KEY: "{{ EDX_NOTES_API_GIT_SSH_KEY }}"
 
+EDX_NOTES_API_ENABLE_HERMES: "{{ COMMON_ENABLE_HERMES }}"
+EDX_NOTES_API_HERMES_SERVICE_CONFIG: []
+
 #
 # This data structure will be written out to yaml configuration file
 # in /edx/etc
