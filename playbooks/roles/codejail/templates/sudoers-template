@@ -1,0 +1,5 @@
+{% for python_version in python_versions %}
+    {{ sandbox_caller }} ALL=({{ sandbox_user }}) SETENV:NOPASSWD:{{ sandbox_env }}-{{ python_version}}/bin/python
+{% endfor %}
+{{ sandbox_caller }} ALL=({{ sandbox_user }}) SETENV:NOPASSWD:/usr/bin/find
+{{ sandbox_caller }} ALL=(ALL) NOPASSWD:/usr/bin/pkill

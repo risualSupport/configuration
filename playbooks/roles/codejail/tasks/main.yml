@@ -1,0 +1,33 @@
+---
+- name: Install codejail specific system packages
+  apt:
+    name: '{{ item }}'
+    state: present
+    update_cache: yes
+  with_items: '{{ codejail_debian_packages }}'
+- name: Create group for sandbox user
+  group:
+    name: '{{ sandbox_user }}'
+    state: present
+    system: yes
+- name: Create sandbox user
+  user:
+    name: '{{ sandbox_user }}'
+    append: '{{ sandbox_group }}'
+    state: present
+- name: Create sandboxed virtual environments for every Python installation
+  shell: 'virtualenv {{ sandbox_env }}-{{ item }}'
+  with_items: "{{ pythons }}"
+- name: Template sudoers file
+  template:
+    src:  "sudoers-template"
+    dest: "/etc/sudoers.d/01-sandbox"
+- name: Create AppArmor profiles for each Python installation
+  template:
+    src: "apparmor-template"
+    dest: '/etc/apparmor.d/home.{{ sandbox_user }}.{{ sandbox_name_base }}-{{ item }}.bin.python'
+  with_items: "{{ pythons }}"
+- name: Parse AppArmor profiles
+  shell: 'apparmor_parser /etc/apparmor.d/home.{{ sandbox_user }}.{{ sandbox_name_base }}-{{ item }}.bin.python'
+  become: true
+  with_items: "{{ pythons }}"

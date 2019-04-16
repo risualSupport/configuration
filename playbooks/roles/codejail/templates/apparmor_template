@@ -1,0 +1,10 @@
+#include <tunables/global>
+
+{{ sandbox_env }}-{{ item }}/bin/python {
+    #include <abstractions/base>
+    #include <abstractions/python>
+
+    {{ sandbox_env }}-{{ item }}/** mr,
+    /tmp/codejail-*/ rix,
+    /tmp/codejail-*/** wrix,
+}
