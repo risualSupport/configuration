@@ -21,3 +21,11 @@ packer_url: "https://releases.hashicorp.com/packer/0.8.6/packer_0.8.6_linux_amd6
 
 nodejs_version: "8"
 ansible_distribution_release: "xenial"
+
+python_versions:
+  - python3.5
+  - python3.5-dev
+  - python3.6
+  - python3.6-dev
+  - python3.7
+  - python3.7-dev
