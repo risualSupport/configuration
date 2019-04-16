@@ -54,8 +54,7 @@ def show_asg_event_notifications():
               required=True)
 @click.option('--event',
               help='The type of event that causes the notification to be sent'
-              , default='autoscaling:EC2_INSTANCE_LAUNCH_ERROR',
-              required=False, is_flag=True)
+              , default='autoscaling:EC2_INSTANCE_LAUNCH_ERROR')
 @click.option('--names', help='Comma separated name of Auto Scaling Groups',
               required=False)
 @click.option('--confirm', default=False, required=False, is_flag=True,
