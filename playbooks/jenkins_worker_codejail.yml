@@ -10,8 +10,14 @@
     codejail_worker: True
     COMMON_SECURITY_UPDATES: yes
     SECURITY_UPGRADE_ON_ANSIBLE: true
+    python_versions:
+      - python2.7
+      - python3.5
+      - python3.6
+      - python3.7
   serial: "{{ serial_count }}"
   roles:
     - aws
+    - docker
     - jenkins_worker
     - codejail
