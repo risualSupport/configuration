@@ -7,13 +7,13 @@
   with_items: '{{ codejail_debian_packages }}'
 - name: Create group for sandbox user
   group:
-    name: '{{ sandbox_user }}'
+    name: '{{ sandbox_group }}'
     state: present
     system: yes
 - name: Create sandbox user
   user:
     name: '{{ sandbox_user }}'
-    append: '{{ sandbox_group }}'
+    group: '{{ sandbox_group }}'
     state: present
 - name: Create sandboxed virtual environments for every Python installation
   shell: 'virtualenv {{ sandbox_env }}-{{ item }}'
