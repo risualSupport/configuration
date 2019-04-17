@@ -14,7 +14,6 @@
       - python2.7
       - python3.5
       - python3.6
-      - python3.7
   serial: "{{ serial_count }}"
   roles:
     - aws
