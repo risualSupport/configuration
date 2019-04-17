@@ -18,6 +18,6 @@
   serial: "{{ serial_count }}"
   roles:
     - aws
-    - docker
+    - docker-tools
     - jenkins_worker
     - codejail
