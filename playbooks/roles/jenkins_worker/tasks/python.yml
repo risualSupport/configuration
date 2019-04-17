@@ -3,6 +3,10 @@
 # Requests library is required for the github status script.
 - name: Install requests Python library
   pip: name=requests state=present
+# tox is needed for running codejail tests
+- name: Install requests Python library
+  pip: name=tox state=present
+  when: codejail_worker is defined
 
 # Versions of Python newer than 3.5 are not available in the default
 # package index for Ubuntu 16.04. Add the deadsnakes PPA for anything
