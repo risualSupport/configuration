@@ -17,7 +17,7 @@
     state: present
 - name: Create sandboxed virtual environments for every Python installation
   shell: 'virtualenv {{ sandbox_env }}-{{ item }}'
-  with_items: "{{ pythons }}"
+  with_items: "{{ python_versions }}"
 - name: Template sudoers file
   template:
     src:  "sudoers-template"
@@ -26,8 +26,8 @@
   template:
     src: "apparmor-template"
     dest: '/etc/apparmor.d/home.{{ sandbox_user }}.{{ sandbox_name_base }}-{{ item }}.bin.python'
-  with_items: "{{ pythons }}"
+  with_items: "{{ python_versions }}"
 - name: Parse AppArmor profiles
   shell: 'apparmor_parser /etc/apparmor.d/home.{{ sandbox_user }}.{{ sandbox_name_base }}-{{ item }}.bin.python'
   become: true
-  with_items: "{{ pythons }}"
+  with_items: "{{ python_versions }}"
