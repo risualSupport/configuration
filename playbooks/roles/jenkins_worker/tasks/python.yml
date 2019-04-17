@@ -10,6 +10,7 @@
 - name: add deadsnakes PPA for newer Python versions
   apt_repository:
     repo: "ppa:fkrull/deadsnakes"
+    update_cache: yes
   when: ansible_distribution_release == 'xenial'
 
 # Install newer versions of python for testing, but do not set them
