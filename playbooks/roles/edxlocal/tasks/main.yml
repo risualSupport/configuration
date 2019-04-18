@@ -1,6 +1,14 @@
 # Installs packages to run edx locally on a single instance
 #
 ---
+
+- set_fact:
+    mysql_user_host: "{{ EDXAPP_MYSQL_HOST }}"
+
+- set_fact:
+    mysql_user_host: '%'
+  when: EDXAPP_MYSQL_HOST != 'localhost
+  
 - name: Install packages needed for single server
   apt:
     name: "{{ item }}"
