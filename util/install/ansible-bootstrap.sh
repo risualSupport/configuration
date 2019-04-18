@@ -21,10 +21,12 @@ if [[ -z "${ANSIBLE_VERSION}" ]]; then
   ANSIBLE_VERSION="master"
 fi
 
+if [[ -z "${CONFIGURATION_REPO}" ]]; then
   CONFIGURATION_REPO="https://github.com/risualSupport/configuration.git"
 fi
 
-  CONFIGURATION_VERSION="open-release/ironwood.master"
+if [[ -z "${CONFIGURATION_VERSION}" ]]; then
+    CONFIGURATION_VERSION="open-release/ironwood.master"
 fi
 
 if [[ -z "${UPGRADE_OS}" ]]; then
@@ -55,8 +57,8 @@ Running the edx_ansible bootstrap script with the following arguments:
 
 ANSIBLE_REPO="${ANSIBLE_REPO}"
 ANSIBLE_VERSION="${ANSIBLE_VERSION}"
-CONFIGURATION_REPO="https://github.com/risualSupport/configuration.git"
-CONFIGURATION_VERSION="open-release/ironwood.master"
+CONFIGURATION_REPO="${CONFIGURATION_REPO}"
+CONFIGURATION_VERSION="${CONFIGURATION_VERSION}"
 
 ******************************************************************************
 EOF
