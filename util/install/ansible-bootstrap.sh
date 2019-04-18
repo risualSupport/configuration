@@ -21,12 +21,10 @@ if [[ -z "${ANSIBLE_VERSION}" ]]; then
   ANSIBLE_VERSION="master"
 fi
 
-if [[ -z "${CONFIGURATION_REPO}" ]]; then
   CONFIGURATION_REPO="https://github.com/risualSupport/configuration.git"
 fi
 
-if [[ -z "${CONFIGURATION_VERSION}" ]]; then
-    CONFIGURATION_VERSION="open-release/ironwood.master"
+  CONFIGURATION_VERSION="open-release/ironwood.master"
 fi
 
 if [[ -z "${UPGRADE_OS}" ]]; then
