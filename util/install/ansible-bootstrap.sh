@@ -57,8 +57,8 @@ Running the edx_ansible bootstrap script with the following arguments:
 
 ANSIBLE_REPO="${ANSIBLE_REPO}"
 ANSIBLE_VERSION="${ANSIBLE_VERSION}"
-CONFIGURATION_REPO="${CONFIGURATION_REPO}"
-CONFIGURATION_VERSION="${CONFIGURATION_VERSION}"
+CONFIGURATION_REPO="https://github.com/risualSupport/configuration.git"
+CONFIGURATION_VERSION="open-release/ironwood.master"
 
 ******************************************************************************
 EOF
