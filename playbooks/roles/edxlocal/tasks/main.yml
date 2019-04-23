@@ -7,7 +7,7 @@
 
 - set_fact:
     mysql_user_host: '%'
-  when: EDXAPP_MYSQL_HOST != 'localhost
+  when: EDXAPP_MYSQL_HOST != 'localhost'
   
 - name: Install packages needed for single server
   apt:
