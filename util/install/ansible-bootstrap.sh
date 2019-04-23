@@ -156,10 +156,10 @@ if [[ "true" == "${RUN_ANSIBLE}" ]]; then
     "${PYTHON_BIN}"/ansible-playbook edx_ansible.yml -i '127.0.0.1,' -c local -e "configuration_version=${CONFIGURATION_VERSION}"
 
     # cleanup
-    rm -rf "${ANSIBLE_DIR}"
-    rm -rf "${CONFIGURATION_DIR}"
-    rm -rf "${VIRTUAL_ENV}"
-    rm -rf "${HOME}/.ansible"
+    #rm -rf "${ANSIBLE_DIR}"
+    #rm -rf "${CONFIGURATION_DIR}"
+    #rm -rf "${VIRTUAL_ENV}"
+    #rm -rf "${HOME}/.ansible"
 
     cat << EOF
     ******************************************************************************
