@@ -50,11 +50,7 @@
     # Discussion forums
     # https://github.com/edx/cs_comments_service
     - forum
-    
-    # Elasticsearch
-    - elasticsearch
-    when: "'localhost' in EDXAPP_ELASTIC_SEARCH_CONFIG|map(attribute='host')"
-    
+
     # Notifications service
     # https://github.com/edx/notifier
     - role: notifier
@@ -94,4 +90,5 @@
       when: COMMON_ENABLE_SPLUNKFORWARDER
     - role: datadog-uninstall
       when: not COMMON_ENABLE_DATADOG
-
+    - role: elasticsearch
+      when: "'localhost' in EDXAPP_ELASTIC_SEARCH_CONFIG|map(attribute='host')"
