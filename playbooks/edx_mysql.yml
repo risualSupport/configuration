@@ -4,7 +4,7 @@
 
 - name: Deploy MySQL
   hosts: all
-  sudo: True
+  become: True
   gather_facts: True
   vars_files:
   - roles/edxlocal/defaults/main.yml
@@ -17,7 +17,7 @@
 
 - name: Configure MySQL
   hosts: all
-  sudo: True
+  become: True
   vars_files:
   - roles/edxlocal/defaults/main.yml
   - roles/edxapp/defaults/main.yml
@@ -34,7 +34,7 @@
 
 - name: Configure Memcached
   hosts: all
-  sudo: True
+  become: True
   tasks:
   - name: Update Memcached bind address
     lineinfile:
