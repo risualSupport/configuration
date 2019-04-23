@@ -31,15 +31,3 @@
       state: absent
   - name: Restart MySQL
     service: name=mysql state=restarted
-
-- name: Configure Memcached
-  hosts: all
-  become: True
-  tasks:
-  - name: Update Memcached bind address
-    lineinfile:
-      dest: /etc/memcached.conf
-      regexp: '^-l 127.0.0.1'
-      state: absent
-  - name: Restart Memcached
-    service: name=memcached state=restarted
