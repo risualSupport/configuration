@@ -1,0 +1,9 @@
+---
+edx_platform_repo: "https://github.com/edx/edx-platform.git"
+edx_platform_version: "open-release/ironwood.master"
+edx_ansible_source_repo: "https://github.com/risualSupport/configuration.git"
+configuration_version: "open-release/ironwood.master"
+certs_version: "open-release/ironwood.master"
+forum_version: "open-release/ironwood.master"
+xqueue_version: "open-release/ironwood.master"
+COMMON_SSH_PASSWORD_AUTH: "yes"
