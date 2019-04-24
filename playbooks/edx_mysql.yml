@@ -31,3 +31,5 @@
       state: absent
   - name: Restart MySQL
     service: name=mysql state=restarted
+  - name: Run mysql.sh script
+    script: /edx/app/edx_ansible/mysql.sh  
