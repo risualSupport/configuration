@@ -19,7 +19,7 @@
     migrate_db: 'yes'
     openid_workaround: True
     EDXAPP_LMS_NGINX_PORT: '80'
-	  NGINX_SET_X_FORWARDED_HEADERS: True
+    NGINX_SET_X_FORWARDED_HEADERS: True
     ENABLE_ECOMMERCE: False  # Disable ecommerce by default
   roles:
 
