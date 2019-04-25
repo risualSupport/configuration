@@ -72,6 +72,9 @@
 
     # Email sending
     - postfix_queue
+       
+    # memcached
+    - role: memcache
 
     # Ecommerce (optional)
     # https://github.com/edx/ecommerce
@@ -83,10 +86,6 @@
       when: ENABLE_ECOMMERCE
     - role: ecomworker
       when: ENABLE_ECOMMERCE
-
-    # memcached
-    - role: memcache
-      when: "'localhost' in ' '.join(EDXAPP_MEMCACHE)"
 
     # Optional extras
     - role: datadog
