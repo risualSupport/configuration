@@ -46,6 +46,11 @@
     - role: edxapp
       celery_worker: True
     - edxapp
+    
+    - oauth_client_setup
+    - oraclejdk
+    - role: elasticsearch
+      when: "'localhost' in EDXAPP_ELASTIC_SEARCH_CONFIG|map(attribute='host')"
 
     # Discussion forums
     # https://github.com/edx/cs_comments_service
