@@ -72,10 +72,7 @@
 
     # Email sending
     - postfix_queue
-       
-    # memcached
-    - role: memcache
-
+ 
     # Ecommerce (optional)
     # https://github.com/edx/ecommerce
     - role: nginx
