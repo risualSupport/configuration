@@ -14,6 +14,7 @@
   roles:
   - mysql
   - edxlocal
+  - memcache
 
 - name: Configure MySQL
   hosts: all
